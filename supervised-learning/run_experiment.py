@@ -95,9 +95,7 @@ if __name__ == '__main__':
     ds8_details = {
         'data': loader.StatlogVehicleData(verbose=verbose, seed=seed),
         'name': 'statlog_vehicle_data',
-        'best_params': {
-            'ANN': {'activation': 'relu', 'alpha': 0.31622776601683794, 'hidden_layer_sizes': (18,), 'learning_rate_init': 0.064}
-        },
+        'best_params': None,
         'readable_name': 'Statlog Vehicle Data',
     }
     ds9_details = {
@@ -121,9 +119,7 @@ if __name__ == '__main__':
     ds12_details = {
         'data': loader.MadelonData(verbose=verbose, seed=seed),
         'name': 'madelon_data',
-        'best_params': {
-            'ANN': {'activation': 'relu', 'alpha': 3.1622776601683795, 'hidden_layer_sizes': (250,), 'learning_rate_init': 0.016}
-        },
+        'best_params': None,
         'readable_name': 'Madelon',
     }
     ds12a_details = {
