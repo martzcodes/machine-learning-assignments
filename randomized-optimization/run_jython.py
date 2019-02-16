@@ -116,7 +116,6 @@ class RunExperiment(Callable):
     # any exceptions will be wrapped as either ExecutionException
     # or InterruptedException
     def call(self):
-        print >> sys.stderr, "Calling..."
         self.thread_used = threading.currentThread().getName()
         self.started = time.time()
         try:
@@ -160,13 +159,19 @@ class RunExperiment(Callable):
             self.exception = ex
         self.completed = time.time()
         finished = '{},{},{},{}\n'.format(self.experiment['type'], self.experiment['kind'], self.experiment['args'].join(','), self.completed - self.started)
-        print finished
+        print >> sys.stderr, finished
         with open(TIMING_FILE, 'a+') as f:
             f.write(finished)
         return self
 
 
 threads = [
+    RunExperiment({
+        "type": toy['type'],
+        "kind": toy['kind'],
+        "args": toy['args']
+    }) for toy in toys
+] + [
     RunExperiment({
         "type": "nn",
         "kind": "rhc",
@@ -190,12 +195,6 @@ threads = [
         "kind": "backprop",
         "args": args
     }) for args in backprop_args
-] + [
-    RunExperiment({
-        "type": toy['type'],
-        "kind": toy['kind'],
-        "args": toy['args']
-    }) for toy in toys
 ]
 
 print "Threads initialized: {}".format(len(threads))
