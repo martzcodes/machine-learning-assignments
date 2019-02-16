@@ -117,7 +117,7 @@ def error_on_data_set(network, ds, measure, ugh=False):
 def train(oa, network, oaName, training_ints, validation_ints, testing_ints, measure, training_iterations, outfile):
     """Train a given network on a set of instances.
     """
-    print "\nError results for %s\n---------------------------" % (oaName,)
+    # print "\nError results for %s\n---------------------------" % (oaName,)
     times = [0]
     for iteration in xrange(training_iterations):
         start = time.clock()
@@ -133,6 +133,6 @@ def train(oa, network, oaName, training_ints, validation_ints, testing_ints, mea
                 network, testing_ints, measure)
             txt = '{},{},{},{},{},{},{},{},{},{},{}\n'.format(iteration, MSE_trg, MSE_val, MSE_tst, acc_trg, acc_val,
                                                               acc_tst, f1_trg, f1_val, f1_tst, times[-1])
-            print txt
+            # print txt
             with open(outfile, 'a+') as f:
                 f.write(txt)

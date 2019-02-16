@@ -24,11 +24,13 @@ python run_experiment.py --dump_data
 
 Configure your params from A1 in `run_jython.py` and then run:
 
+Increase the default memory: `alias jythonMem="java -Xmx4096m -Xss1024m -classpath /home/ubuntu/jython/jython.jar: -Dpython.home/home/ubuntu/jython -Dpython.executable=/home/ubuntu/jython/bin/jython org.python.util.jython"` (adjust as necessary)
+
 ```
-jython run_jython.py
+jythonMem run_jython.py
 ```
 
-^^ Heavy emphasis on the _jython_ part of that. This will (supposedly) fully utilize your available threads. I ran it on an AWS c5.9xlarge which costs \$1.53/hour at the time of this writing.
+^^ Heavy emphasis on the _jython_ part of that. This will (supposedly) fully utilize your available threads. I ran it on an AWS c5.9xlarge which costs \$1.53/hour at the time of this writing. Adjust memory as needed
 
 ## Data
 
