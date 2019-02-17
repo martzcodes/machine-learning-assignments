@@ -44,7 +44,6 @@ outfile = OUTPUT_DIRECTORY + '/CONTPEAKS/CONTPEAKS_{}_{}_LOG.csv'
 
 # RHC
 
-
 def run_rhc(t):
     fname = outfile.format('RHC', str(t + 1))
     with open(fname, 'w') as f:
@@ -65,7 +64,7 @@ def run_rhc(t):
         score = ef.value(rhc.getOptimal())
         ef.fevals -= 1
         st = '{},{},{},{}\n'.format(i, score, times[-1], fevals)
-        # print st
+        # print fname, st
         with open(fname, 'a') as f:
             f.write(st)
     

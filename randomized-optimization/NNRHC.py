@@ -28,10 +28,10 @@ base.make_dirs(OUTPUT_DIRECTORY)
 
 
 # Network parameters found "optimal" in Assignment 1
-OUTFILE = OUTPUT_DIRECTORY + '/NN_OUTPUT/NN_{}_LOG.csv'
+OUTFILE = OUTPUT_DIRECTORY + '/NN_OUTPUT/NN_{}_{}_LOG.csv'
 
 
-def main(layers, training_iterations, test_data_file, train_data_file, validate_data_file):
+def main(layers, training_iterations, test_data_file, train_data_file, validate_data_file, data_name):
     """Run this experiment"""
     training_ints = base.initialize_instances(train_data_file)
     testing_ints = base.initialize_instances(test_data_file)
@@ -48,15 +48,11 @@ def main(layers, training_iterations, test_data_file, train_data_file, validate_
         data_set, classification_network, measure)
     oa = RandomizedHillClimbing(nnop)
     base.train(oa, classification_network, 'RHC', training_ints, validation_ints, testing_ints, measure,
-               training_iterations, OUTFILE.format('RHC'))
+               training_iterations, OUTFILE.format(data_name, 'RHC'))
     return
 
 
 if __name__ == "__main__":
-    with open(OUTFILE.format('RHC'), 'a+') as f:
-        f.write('{},{},{},{},{},{},{},{},{},{},{}\n'.format('iteration', 'MSE_trg', 'MSE_val', 'MSE_tst', 'acc_trg',
-                                                            'acc_val', 'acc_tst', 'f1_trg', 'f1_val', 'f1_tst',
-                                                            'elapsed'))
     DS_NAME = 'Culled'
     TEST_DATA_FILE = 'data/{}_test.csv'.format(DS_NAME)
     TRAIN_DATA_FILE = 'data/{}_train.csv'.format(DS_NAME)
@@ -64,4 +60,4 @@ if __name__ == "__main__":
     layers = [250, 250, 1]
     training_iterations = 5001
     main(layers, training_iterations, TEST_DATA_FILE,
-         TRAIN_DATA_FILE, VALIDATE_DATA_FILE)
+         TRAIN_DATA_FILE, VALIDATE_DATA_FILE, DS_NAME)

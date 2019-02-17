@@ -43,6 +43,15 @@ for i in range(0, len(points)):
     points[i][1] = random.nextDouble()
 outfile = OUTPUT_DIRECTORY + '/TSP/TSP_{}_{}_LOG.csv'
 
+ef = TravelingSalesmanRouteEvaluationFunction(points)
+odd = DiscretePermutationDistribution(N)
+nf = SwapNeighbor()
+mf = SwapMutation()
+cf = TravelingSalesmanCrossOver(ef)
+hcp = GenericHillClimbingProblem(ef, odd, nf)
+gap = GenericGeneticAlgorithmProblem(ef, odd, mf, cf)
+
+
 # MIMIC
 
 
@@ -55,8 +64,6 @@ def run_mimic(t, samples, keep, m):
     fname = outfile.format('MIMIC{}_{}_{}'.format(
         samples, keep, m), str(t + 1))
     df = DiscreteDependencyTree(m, ranges)
-    with open(fname, 'w') as f:
-        f.write('iterations,fitness,time,fevals\n')
     ef = TravelingSalesmanRouteEvaluationFunction(points)
     pop = GenericProbabilisticOptimizationProblem(ef, odd, df)
     mimic = MIMIC(samples, keep, pop)
@@ -72,7 +79,7 @@ def run_mimic(t, samples, keep, m):
         ef.fevals -= 1
         st = '{},{},{},{}\n'.format(i, score, times[-1], fevals)
         # print st
-        with open(fname, 'a') as f:
+        with open(fname, 'a+') as f:
             f.write(st)
     return
 
@@ -81,8 +88,6 @@ def run_mimic(t, samples, keep, m):
 
 def run_rhc(t):
     fname = outfile.format('RHC', str(t + 1))
-    with open(fname, 'w') as f:
-        f.write('iterations,fitness,time,fevals\n')
     ef = TravelingSalesmanRouteEvaluationFunction(points)
     hcp = GenericHillClimbingProblem(ef, odd, nf)
     rhc = RandomizedHillClimbing(hcp)
@@ -98,7 +103,7 @@ def run_rhc(t):
         ef.fevals -= 1
         st = '{},{},{},{}\n'.format(i, score, times[-1], fevals)
         # print st
-        with open(fname, 'a') as f:
+        with open(fname, 'a+') as f:
             f.write(st)
     return
 
@@ -107,8 +112,6 @@ def run_rhc(t):
 
 def run_sa(t, CE):
     fname = outfile.format('SA{}'.format(CE), str(t + 1))
-    with open(fname, 'w') as f:
-        f.write('iterations,fitness,time,fevals\n')
     ef = TravelingSalesmanRouteEvaluationFunction(points)
     hcp = GenericHillClimbingProblem(ef, odd, nf)
     sa = SimulatedAnnealing(1E10, CE, hcp)
@@ -124,7 +127,7 @@ def run_sa(t, CE):
         ef.fevals -= 1
         st = '{},{},{},{}\n'.format(i, score, times[-1], fevals)
         # print st
-        with open(fname, 'a') as f:
+        with open(fname, 'a+') as f:
             f.write(st)
     return
 
@@ -134,8 +137,6 @@ def run_sa(t, CE):
 def run_ga(t, pop, mate, mutate):
     fname = outfile.format('GA{}_{}_{}'.format(
         pop, mate, mutate), str(t + 1))
-    with open(fname, 'w') as f:
-        f.write('iterations,fitness,time,fevals\n')
     ef = TravelingSalesmanRouteEvaluationFunction(points)
     gap = GenericGeneticAlgorithmProblem(ef, odd, mf, cf)
     ga = StandardGeneticAlgorithm(pop, mate, mutate, gap)
@@ -151,15 +152,15 @@ def run_ga(t, pop, mate, mutate):
         ef.fevals -= 1
         st = '{},{},{},{}\n'.format(i, score, times[-1], fevals)
         # print st
-        with open(fname, 'a') as f:
+        with open(fname, 'a+') as f:
             f.write(st)
     return
 
 
 if __name__ == '__main__':
-    for t in range(numTrials):
-        for samples, keep, m in product([100], [50], [0.1, 0.3, 0.5, 0.7, 0.9]):
-            run_mimic(t, samples, keep, m)
+    # for t in range(numTrials):
+    #     for samples, keep, m in product([100], [50], [0.1, 0.3, 0.5, 0.7, 0.9]):
+    #         run_mimic(t, samples, keep, m)
     for t in range(numTrials):
         run_rhc(t)
     for t in range(numTrials):
