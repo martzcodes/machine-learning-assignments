@@ -45,7 +45,12 @@ TEST_VEHICLE = 'data/{}_test.csv'.format('Vehicle')
 TRAIN_VEHICLE = 'data/{}_train.csv'.format('Vehicle')
 VALIDATE_VEHICLE = 'data/{}_validate.csv'.format('Vehicle')
 
-experiment_data = [([250, 250, 1], 5001, TEST_CULLED, TRAIN_CULLED, VALIDATE_CULLED, 'Culled'), ([18, 1], 5001, TEST_VEHICLE, TRAIN_VEHICLE, VALIDATE_VEHICLE, 'Vehicle')]
+experiment_data = [
+    #([INPUT_LAYER, HIDDEN_LAYER1, ..., OUTPUT_LAYER], max iterations, test, train, validate, name)
+    # OUTPUT should be 1 otherwise you get an index out of bounds error
+    ([32, 32, 32, 1], 5001, TEST_CULLED, TRAIN_CULLED, VALIDATE_CULLED, 'Culled'),
+    ([18, 18, 1], 5001, TEST_VEHICLE, TRAIN_VEHICLE, VALIDATE_VEHICLE, 'Vehicle')
+    ]
 rhc_args = [data for data in experiment_data]
 print "RHC {}".format(len(rhc_args))
 sa_args = [(CE, data[0], data[1], data[2], data[3], data[4], data[5]) for CE in [0.15, 0.35, 0.55, 0.70, 0.95] for data in experiment_data]
@@ -169,17 +174,11 @@ class RunExperiment(Callable):
         finished = "{},{},{},{}".format(self.experiment['type'], self.experiment['kind'], exp_args, self.completed - self.started)
         print "  END: {}".format(finished)
         base.write_to_file(TIMING_FILE,"{}\n".format(finished))
-            
+
         return self
 
 
 threads = [
-    RunExperiment({
-        "type": toy['type'],
-        "kind": toy['kind'],
-        "args": toy['args']
-    }) for toy in toys
-] + [
     RunExperiment({
         "type": "nn",
         "kind": "ga",
@@ -204,6 +203,13 @@ threads = [
         "args": args
     }) for args in backprop_args
 ]
+# + [
+#     RunExperiment({
+#         "type": toy['type'],
+#         "kind": toy['kind'],
+#         "args": toy['args']
+#     }) for toy in toys
+# ]
 
 thread_count = len(threads)
 
