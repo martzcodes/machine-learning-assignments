@@ -117,6 +117,11 @@ class RunExperiment(Callable):
     def call(self):
         self.thread_used = threading.currentThread().getName()
         self.started = time.time()
+        if self.experiment['kind'] == 'rhc':
+            exp_args = self.experiment['args']
+        else:
+            exp_args = ",".join(map(str,self.experiment['args']))
+        print "START: {},{},{}".format(self.experiment['type'], self.experiment['kind'], exp_args)
         try:
             if self.experiment['type'] == 'continuouspeaks':
                 if self.experiment['kind'] == 'rhc':
@@ -162,24 +167,24 @@ class RunExperiment(Callable):
         else:
             exp_args = ",".join(map(str,self.experiment['args']))
         finished = "{},{},{},{}".format(self.experiment['type'], self.experiment['kind'], exp_args, self.completed - self.started)
-        print "finished: {}".format(finished)
-        with open(TIMING_FILE, 'a+') as f:
-            f.write("{}\n".format(finished))
+        print "  END: {}".format(finished)
+        base.write_to_file(TIMING_FILE,"{}\n".format(finished))
+            
         return self
 
 
 threads = [
     RunExperiment({
-        "type": "nn",
-        "kind": "ga",
-        "args": args
-    }) for args in ga_args
-] + [
-    RunExperiment({
         "type": toy['type'],
         "kind": toy['kind'],
         "args": toy['args']
     }) for toy in toys
+] + [
+    RunExperiment({
+        "type": "nn",
+        "kind": "ga",
+        "args": args
+    }) for args in ga_args
 ] + [
     RunExperiment({
         "type": "nn",

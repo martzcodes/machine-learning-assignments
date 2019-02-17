@@ -5,10 +5,31 @@ import time
 import random as rand
 from shared import Instance
 from java.lang import Math
+import Queue
+import threading
 
 __all__ = ['initialize_instances', 'error_on_data_set',
-           'train', 'make_dirs', 'f1_score']
+           'train', 'make_dirs', 'f1_score', 'write_to_file']
 
+def printer():
+    while True:
+        item = printqueue.get()
+        if item is None:
+            break
+        if len(item) == 2:
+            path = item[0]
+            txt = item[1]
+            with open(path, 'a+') as f:
+                f.write(txt)
+            printqueue.task_done()
+
+printqueue = Queue.Queue()
+
+t = threading.Thread(target=printer)
+t.start()
+
+def write_to_file(f, txt):
+    printqueue.put((f, txt))
 
 def make_dirs(OUTPUT_DIRECTORY):
     if not os.path.exists(OUTPUT_DIRECTORY):
@@ -134,5 +155,4 @@ def train(oa, network, oaName, training_ints, validation_ints, testing_ints, mea
             txt = '{},{},{},{},{},{},{},{},{},{},{}\n'.format(iteration, MSE_trg, MSE_val, MSE_tst, acc_trg, acc_val,
                                                               acc_tst, f1_trg, f1_val, f1_tst, times[-1])
             # print txt
-            with open(outfile, 'a+') as f:
-                f.write(txt)
+            write_to_file(outfile, txt)

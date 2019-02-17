@@ -46,8 +46,6 @@ outfile = OUTPUT_DIRECTORY + '/FLIPFLOP/FLIPFLOP_{}_{}_LOG.csv'
 
 def run_rhc(t):
     fname = outfile.format('RHC', str(t + 1))
-    with open(fname, 'w') as f:
-        f.write('iterations,fitness,time,fevals\n')
     ef = FlipFlopEvaluationFunction()
     odd = DiscreteUniformDistribution(ranges)
     nf = DiscreteChangeOneNeighbor(ranges)
@@ -65,8 +63,7 @@ def run_rhc(t):
         ef.fevals -= 1
         st = '{},{},{},{}\n'.format(i, score, times[-1], fevals)
         # print st
-        with open(fname, 'a') as f:
-            f.write(st)
+        base.write_to_file(fname,st)
     return
 
 # SA
@@ -74,8 +71,6 @@ def run_rhc(t):
 
 def run_sa(t, CE):
     fname = outfile.format('SA{}'.format(CE), str(t + 1))
-    with open(fname, 'w') as f:
-        f.write('iterations,fitness,time,fevals\n')
     ef = FlipFlopEvaluationFunction()
     odd = DiscreteUniformDistribution(ranges)
     nf = DiscreteChangeOneNeighbor(ranges)
@@ -93,8 +88,7 @@ def run_sa(t, CE):
         ef.fevals -= 1
         st = '{},{},{},{}\n'.format(i, score, times[-1], fevals)
         # print st
-        with open(fname, 'a') as f:
-            f.write(st)
+        base.write_to_file(fname,st)
     return
 
 # GA
@@ -103,8 +97,6 @@ def run_sa(t, CE):
 def run_ga(t, pop, mate, mutate):
     fname = outfile.format('GA{}_{}_{}'.format(
         pop, mate, mutate), str(t + 1))
-    with open(fname, 'w') as f:
-        f.write('iterations,fitness,time,fevals\n')
     ef = FlipFlopEvaluationFunction()
     odd = DiscreteUniformDistribution(ranges)
     nf = DiscreteChangeOneNeighbor(ranges)
@@ -124,8 +116,7 @@ def run_ga(t, pop, mate, mutate):
         ef.fevals -= 1
         st = '{},{},{},{}\n'.format(i, score, times[-1], fevals)
         # print st
-        with open(fname, 'a') as f:
-            f.write(st)
+        base.write_to_file(fname,st)
     return
 
 # MIMIC
@@ -134,8 +125,6 @@ def run_ga(t, pop, mate, mutate):
 def run_mimic(t, samples, keep, m):
     fname = outfile.format('MIMIC{}_{}_{}'.format(
         samples, keep, m), str(t + 1))
-    with open(fname, 'w') as f:
-        f.write('iterations,fitness,time,fevals\n')
     ef = FlipFlopEvaluationFunction()
     odd = DiscreteUniformDistribution(ranges)
     nf = DiscreteChangeOneNeighbor(ranges)
@@ -157,8 +146,7 @@ def run_mimic(t, samples, keep, m):
         ef.fevals -= 1
         st = '{},{},{},{}\n'.format(i, score, times[-1], fevals)
         # print st
-        with open(fname, 'a') as f:
-            f.write(st)
+        base.write_to_file(fname,st)
     return
 
 

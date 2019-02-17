@@ -79,8 +79,7 @@ def run_mimic(t, samples, keep, m):
         ef.fevals -= 1
         st = '{},{},{},{}\n'.format(i, score, times[-1], fevals)
         # print st
-        with open(fname, 'a+') as f:
-            f.write(st)
+        base.write_to_file(fname,st)
     return
 
 # RHC
@@ -103,8 +102,7 @@ def run_rhc(t):
         ef.fevals -= 1
         st = '{},{},{},{}\n'.format(i, score, times[-1], fevals)
         # print st
-        with open(fname, 'a+') as f:
-            f.write(st)
+        base.write_to_file(fname,st)
     return
 
 # SA
@@ -127,8 +125,7 @@ def run_sa(t, CE):
         ef.fevals -= 1
         st = '{},{},{},{}\n'.format(i, score, times[-1], fevals)
         # print st
-        with open(fname, 'a+') as f:
-            f.write(st)
+        base.write_to_file(fname,st)
     return
 
 # GA
@@ -152,8 +149,7 @@ def run_ga(t, pop, mate, mutate):
         ef.fevals -= 1
         st = '{},{},{},{}\n'.format(i, score, times[-1], fevals)
         # print st
-        with open(fname, 'a+') as f:
-            f.write(st)
+        base.write_to_file(fname,st)
     return
 
 
