@@ -1,6 +1,6 @@
 import sys
 
-sys.path.append("./ABAGAIL.jar")
+sys.path.append("./ABAGAIL/ABAGAIL.jar")
 
 import base
 from java.lang import Math
