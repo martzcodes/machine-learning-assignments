@@ -1,6 +1,6 @@
 import sys
 
-sys.path.append("./ABAGAIL.jar")
+sys.path.append("./ABAGAIL/ABAGAIL.jar")
 
 from java.util.concurrent import Executors, Callable, TimeUnit
 from itertools import product
