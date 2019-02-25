@@ -1,6 +1,6 @@
 import sys
 
-sys.path.append("./ABAGAIL.jar")
+sys.path.append("./ABAGAIL/ABAGAIL.jar")
 
 import base
 from java.lang import Math
@@ -19,9 +19,7 @@ from func.nn.backprop import BackPropagationNetworkFactory
 GA NN training
 """
 # Adapted from https://github.com/JonathanTay/CS-7641-assignment-2/blob/master/NN3.py
-import sys
 
-sys.path.append("./ABAGAIL.jar")
 
 
 # TODO: Move this to a common lib?
