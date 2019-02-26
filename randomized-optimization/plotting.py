@@ -40,6 +40,16 @@ to_process = {
         'path': 'NN_OUTPUT',
         'nn_curve': True,
         'multiple_trials': False
+    },
+    'NN_Culled': { # Rename to match your output type... e.g.  NN_OUTPUT/NN_Culled_GA...  grab the stuff before _GA
+        'path': 'NN_OUTPUT',
+        'nn_curve': True,
+        'multiple_trials': False
+    },
+    'NN_Vehicle': {
+        'path': 'NN_OUTPUT',
+        'nn_curve': True,
+        'multiple_trials': False
     }
 }
 
@@ -116,7 +126,11 @@ def plot_data(title, data, column_prefixes=None, validate_only=False, nn_curve=F
 
 def read_data_file(file, nn_curve=False):
     logger.info("    - Processing {}".format(file))
-    df = pd.read_csv(file)
+    df = pd.read_csv(file, header=None)
+    if nn_curve:
+        df.columns = ['iteration', 'MSE_trg', 'MSE_val', 'MSE_tst', 'acc_trg','acc_val', 'acc_tst', 'f1_trg', 'f1_val', 'f1_tst','elapsed']
+    else:
+        df.columns = ['iterations', 'fitness', 'time', 'fevals']
     if 'iterations' not in df.columns:
         df = df.rename(columns={'iteration': 'iterations'})
 
