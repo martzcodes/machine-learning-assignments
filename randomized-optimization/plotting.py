@@ -640,7 +640,7 @@ if __name__ == '__main__':
         f.write('problem,algorithm,params,best fitness,best iterations,best time,best fevals\n')
         for problem_name in sorted(the_best):
             output_file_name_regex = re.compile('{}_([A-Za-z]+)(.*)_LOG\.csv'.format(problem_name))
-            nn_curve = problem_name == 'NN'
+            nn_curve = 'NN_' in problem_name
             best_files = the_best[problem_name]
             for algo in best_files:
                 file = best_files[algo][0]
