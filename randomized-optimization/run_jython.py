@@ -1,6 +1,6 @@
 import sys
 
-sys.path.append("./ABAGAIL.jar")
+sys.path.append("./ABAGAIL/ABAGAIL.jar")
 
 from java.util.concurrent import Executors, Callable, TimeUnit
 from itertools import product
@@ -24,6 +24,7 @@ import NNSA as NNsa
 
 def shutdown_and_await_termination(pool, timeout):
     pool.shutdown()
+    print "Shutting down the pool... you may have to terminate since martzcodes was too lazy to properly kill the write queue... PRs welcome"
     try:
         if not pool.awaitTermination(timeout, TimeUnit.SECONDS):
             pool.shutdownNow()

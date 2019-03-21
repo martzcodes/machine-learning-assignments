@@ -40,6 +40,16 @@ to_process = {
         'path': 'NN_OUTPUT',
         'nn_curve': True,
         'multiple_trials': False
+    },
+    'NN_Culled': { # Rename to match your output type... e.g.  NN_OUTPUT/NN_Culled_GA...  grab the stuff before _GA
+        'path': 'NN_OUTPUT',
+        'nn_curve': True,
+        'multiple_trials': False
+    },
+    'NN_Vehicle': {
+        'path': 'NN_OUTPUT',
+        'nn_curve': True,
+        'multiple_trials': False
     }
 }
 
@@ -116,7 +126,11 @@ def plot_data(title, data, column_prefixes=None, validate_only=False, nn_curve=F
 
 def read_data_file(file, nn_curve=False):
     logger.info("    - Processing {}".format(file))
-    df = pd.read_csv(file)
+    df = pd.read_csv(file, header=None)
+    if nn_curve:
+        df.columns = ['iteration', 'MSE_trg', 'MSE_val', 'MSE_tst', 'acc_trg','acc_val', 'acc_tst', 'f1_trg', 'f1_val', 'f1_tst','elapsed']
+    else:
+        df.columns = ['iterations', 'fitness', 'time', 'fevals']
     if 'iterations' not in df.columns:
         df = df.rename(columns={'iteration': 'iterations'})
 
@@ -626,7 +640,7 @@ if __name__ == '__main__':
         f.write('problem,algorithm,params,best fitness,best iterations,best time,best fevals\n')
         for problem_name in sorted(the_best):
             output_file_name_regex = re.compile('{}_([A-Za-z]+)(.*)_LOG\.csv'.format(problem_name))
-            nn_curve = problem_name == 'NN'
+            nn_curve = 'NN_' in problem_name
             best_files = the_best[problem_name]
             for algo in best_files:
                 file = best_files[algo][0]
